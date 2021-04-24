@@ -13,7 +13,7 @@ object Problem01 {
     else go(desiredSum, numbers.head, numbers.tail)
   }
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =
     // Find the two numbers that sum to 2020 then multiply them together
     FileUtil.readResource("Problem01.txt") match {
       case Left(exception) => throw exception
@@ -22,5 +22,4 @@ object Problem01 {
         val answer = findProductOfTwoSummedNumbers(2020, numbers)
         System.out.println(answer)
     }
-  }
 }
