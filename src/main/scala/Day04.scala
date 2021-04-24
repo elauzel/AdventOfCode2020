@@ -81,16 +81,18 @@ object Day04 {
   }
 
   def main(args: Array[String]): Unit =
-    FileUtil.readResource("Day04.txt") match {
+    FileUtil.readResourceAsGroupedLines("Day04.txt") match {
       case Left(exception) => throw exception
-      case Right(lines) =>
+      case Right(lines: Seq[Vector[String]]) =>
+        val passports = lines.map(_.mkString(" "))
         // Part 1 - How many passports are valid after modifying the scanner to ignore cid?
-        val part1Answer = parsePassportLines(lines)
-          .map(isPassportWithRequiredFields)
-          .count(b => b)
+        val part1Answer =
+          passports
+            .map(isPassportWithRequiredFields)
+            .count(b => b)
         System.out.println(part1Answer)
         // Part 2 - How many passports are valid after modifying the scanner to ignore cid and adding data validation?
-        val part2Answer = parsePassportLines(lines)
+        val part2Answer = passports
           .map(isPassportWithRequiredFieldsAndValidData)
           .count(b => b)
         System.out.println(part2Answer)

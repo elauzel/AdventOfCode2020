@@ -1,4 +1,5 @@
 import java.io.File
+import scala.collection.mutable
 import scala.io.Source
 
 object FileUtil {
@@ -16,4 +17,17 @@ object FileUtil {
         Left(new RuntimeException(s"Failed to read ${file.getAbsolutePath}: ${t.getMessage}"))
     }
   }
+
+  def readResourceAsGroupedLines(filename: String): Either[RuntimeException, Vector[Vector[String]]] =
+    readResource(filename).map { lines =>
+      val groups = mutable.ListBuffer.empty[Vector[String]]
+      var currentGroup = mutable.ListBuffer.empty[String]
+      lines.foreach { line =>
+        if (line.isEmpty) {
+          groups += currentGroup.toVector
+          currentGroup = mutable.ListBuffer.empty[String]
+        } else currentGroup += line
+      }
+      groups.toVector :+ currentGroup.toVector
+    }
 }
