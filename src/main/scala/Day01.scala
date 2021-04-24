@@ -35,7 +35,7 @@ object Day01 {
   }
 
   def main(args: Array[String]): Unit =
-    FileUtil.readResource("Problem01.txt") match {
+    FileUtil.readResource("Day01.txt") match {
       case Left(exception) => throw exception
       case Right(lines) =>
         val numbers = lines.map(_.toLong)
