@@ -1,6 +1,6 @@
 import scala.annotation.tailrec
 
-object Problem01 {
+object Day01 {
   def findProductOfTwoSummedNumbers(desiredSum: Long, numbers: Vector[Long]): Either[Throwable, Long] =
     if (numbers.size < 2)
       Left(new RuntimeException(s"no two numbers found with desired sum $desiredSum"))
