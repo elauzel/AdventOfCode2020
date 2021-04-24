@@ -18,21 +18,21 @@ object Day01 {
         }
 
       go(desiredSum, numbers.head, numbers.tail)
-  }
+    }
 
   @tailrec
   def findProductOfThreeSummedNumbers(desiredSum: Long, numbers: Vector[Long]): Either[Throwable, Long] =
     if (numbers.length < 3)
       Left(new RuntimeException(s"no three numbers found with desired sum $desiredSum"))
     else {
-    val number = numbers.head
-    findProductOfTwoSummedNumbers(desiredSum - number, numbers.tail) match {
-      case Left(_) =>
-        findProductOfThreeSummedNumbers(desiredSum, numbers.tail)
-      case Right(product) =>
-        Right(product * number)
+      val number = numbers.head
+      findProductOfTwoSummedNumbers(desiredSum - number, numbers.tail) match {
+        case Left(_) =>
+          findProductOfThreeSummedNumbers(desiredSum, numbers.tail)
+        case Right(product) =>
+          Right(product * number)
+      }
     }
-  }
 
   def main(args: Array[String]): Unit =
     FileUtil.readResource("Day01.txt") match {
