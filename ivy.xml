@@ -1,0 +1,6 @@
+<ivy-module version="2.0">
+    <info organisation="elauzel" module="AdventOfCode2020"/>
+    <dependencies>
+        <dependency org="org.scalatest" name="scalatest_2.13" rev="3.2.7"/>
+    </dependencies>
+</ivy-module>
