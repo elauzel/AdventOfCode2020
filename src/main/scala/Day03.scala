@@ -1,3 +1,5 @@
+import Day03.countTreesOnSlope
+
 import scala.annotation.tailrec
 
 object Day03 {
@@ -26,6 +28,9 @@ object Day03 {
         currentPositionY + stepsDown,
         if (isTree(currentPositionX, currentPositionY, landscape)) currentTreeCount + 1 else currentTreeCount)
 
+  def countTreesOnSlopes(slopes: Seq[(Int, Int)], landscape: Vector[Vector[Boolean]]): Seq[Long] =
+    slopes.map(s => countTreesOnSlope(s._1, s._2, landscape))
+
   def main(args: Array[String]): Unit =
     FileUtil.readResource("Day03.txt") match {
       case Left(exception) => throw exception
@@ -34,8 +39,10 @@ object Day03 {
         // Part 1 - Starting at the top-left corner of your map and following a slope of right 3 and down 1, how many trees would you encounter?
         val part1Answer = countTreesOnSlope(3, 1, landscape)
         System.out.println(part1Answer)
-      // Part 2 - ???
-      //        val part2Answer = ???
-      //        System.out.println(part2Answer)
+        val slopes = Vector((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
+        // Part 2 - Determine the number of trees you would encounter if, for each of the following slopes,
+        // you start at the top-left corner and traverse the map all the way to the bottom, then get their product:
+        val part2Answer = countTreesOnSlopes(slopes, landscape).product
+        System.out.println(part2Answer)
     }
 }

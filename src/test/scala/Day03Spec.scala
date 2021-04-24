@@ -82,5 +82,16 @@ class Day03Spec extends AnyFlatSpec with Matchers {
 
   // Part 2
 
-  // TODO
+  "count trees on slopes" should "count the number of trees encountered on each slope" in {
+    val lines = Vector(
+      "....#...............#.#..###.##",
+      ".#..#....###..............##...",
+      "....###......#....#.#...#.##..#",
+      ".......#........#..###...##....",
+      ".....#..#......#..#..##..#...#."
+    )
+    val landscape = lines.map(Day03.parseLineIntoTreeLocations)
+    val slopes = Vector((1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1))
+    Day03.countTreesOnSlopes(slopes, landscape) should be(Seq(1, 2, 1, 1, 0, 0, 1, 0, 3, 2))
+  }
 }
