@@ -1,5 +1,4 @@
 object Problem01 {
-  // Find the two numbers that sum to 2020 then multiply them together
   def findProductOfTwoSummedNumbers(desiredSum: Int, numbers: Vector[Int]): Option[Int] = {
     def go(desiredSum: Int, augend: Int, addendsToCheck: Vector[Int]): Option[Int] = { // TODO make tail-recursive
       addendsToCheck
@@ -15,6 +14,7 @@ object Problem01 {
   }
 
   def main(args: Array[String]): Unit = {
+    // Find the two numbers that sum to 2020 then multiply them together
     FileUtil.readResource("Problem01.txt") match {
       case Left(exception) => throw exception
       case Right(lines) =>
