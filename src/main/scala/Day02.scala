@@ -1,3 +1,5 @@
+import scala.util.Try
+
 object Day02 {
   case class PasswordAndOccurrancePolicy(minOccurrances: Int,
                                          maxOccurrances: Int,
@@ -20,36 +22,38 @@ object Day02 {
     charAtIndex1 ^ charAtIndex2
   }
 
-  def parsePasswordAndOccurrancePolicy(line: String): PasswordAndOccurrancePolicy = {
-    val info = parsePasswordAndPolicyInfo(line)
-    PasswordAndOccurrancePolicy(info._1, info._2, info._3, info._4)
-  }
+  def parsePasswordAndOccurrancePolicy(line: String): Option[PasswordAndOccurrancePolicy] =
+    parsePasswordAndPolicyInfo(line)
+      .map(info => PasswordAndOccurrancePolicy(info._1, info._2, info._3, info._4))
 
-  def parsePasswordAndPositionPolicy(line: String): PasswordAndPositionPolicy = {
-    val info = parsePasswordAndPolicyInfo(line)
-    PasswordAndPositionPolicy(info._1, info._2, info._3, info._4)
-  }
+  def parsePasswordAndPositionPolicy(line: String): Option[PasswordAndPositionPolicy] =
+    parsePasswordAndPolicyInfo(line)
+      .map(info => PasswordAndPositionPolicy(info._1, info._2, info._3, info._4))
 
-  private def parsePasswordAndPolicyInfo(line: String) = {
-    val lineParts = line.split(" ")
-    val frequencyPart = lineParts.head.split("-")
-    val number1 = frequencyPart.head.toInt
-    val number2 = frequencyPart.last.toInt
-    val character = lineParts(1).head
-    val password = lineParts.last
-    (number1, number2, character, password)
-  }
+  private def parsePasswordAndPolicyInfo(line: String) =
+    Try {
+      line match {
+        case s"$num1-$num2 $character: $password" => Some((num1.toInt, num2.toInt, character.head, password))
+        case _ => None
+      }
+    }.getOrElse(None)
 
   def countPasswordsMeetingOccurrancePolicy(lines: Vector[String]): Long =
     lines.count { line =>
-      val passwordAndPolicy = parsePasswordAndOccurrancePolicy(line)
-      passwordMeetsCompanyOccurrancePolicy(passwordAndPolicy)
+      parsePasswordAndOccurrancePolicy(line)
+        .map(passwordMeetsCompanyOccurrancePolicy) match {
+        case Some(result) => result
+        case _ => false
+      }
     }
 
   def countPasswordsMeetingPositionPolicy(lines: Vector[String]): Long =
     lines.count { line =>
-      val passwordAndPolicy = parsePasswordAndPositionPolicy(line)
-      passwordMeetsCompanyPositionPolicy(passwordAndPolicy)
+      parsePasswordAndPositionPolicy(line)
+        .map(passwordMeetsCompanyPositionPolicy) match {
+        case Some(result) => result
+        case _ => false
+      }
     }
 
   def main(args: Array[String]): Unit =
