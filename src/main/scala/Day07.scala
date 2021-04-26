@@ -25,6 +25,15 @@ object Day07 {
     newBags ++ newBags.flatMap(color => findPossibleBagsToHold(color, rules))
   }
 
+  def countNumberOfBagsHeld(bagColor: BagColor, rules: Set[Rule]): Int = {
+    def go(bagColor: BagColor, rules: Set[Rule]): Int = {
+      val rule = rules.filter(_.bagColor == bagColor).head
+      1 + rule.allowedContents.map(kvp => kvp._2 * go(kvp._1, rules)).sum
+    }
+
+    go(bagColor, rules) - 1
+  }
+
   def main(args: Array[String]): Unit =
     FileUtil.readResource("Day07.txt") match {
       case Left(exception) => throw exception
@@ -33,8 +42,8 @@ object Day07 {
         // Part 1 - How many bag colors can, eventually, contain at least one shiny gold bag directly or indirectly?
         val part1Answer = findPossibleBagsToHold("shiny gold", rules).size
         System.out.println(part1Answer)
-      // Part 2 - ???
-      //        val part2Answer = ???
-      //        System.out.println(part2Answer)
+        // Part 2 - How many individual bags are required inside your single shiny gold bag?
+        val part2Answer = countNumberOfBagsHeld("shiny gold", rules)
+        System.out.println(part2Answer)
     }
 }

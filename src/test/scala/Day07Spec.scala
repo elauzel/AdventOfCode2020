@@ -41,7 +41,7 @@ class Day07Spec extends AnyFlatSpec with Matchers {
       Rule("green", Map("yellow" -> 1)),
       Rule("blue", Map("green" -> 1)),
       Rule("indigo", Map("blue" -> 1)),
-      Rule("violet", Map("indigo" -> 1)),
+      Rule("violet", Map("indigo" -> 1))
     )
 
     Day07.findPossibleBagsToHold("red", rules) should be(Set("orange", "yellow", "green", "blue", "indigo", "violet"))
@@ -51,5 +51,21 @@ class Day07Spec extends AnyFlatSpec with Matchers {
     Day07.findPossibleBagsToHold("blue", rules) should be(Set("indigo", "violet"))
     Day07.findPossibleBagsToHold("indigo", rules) should be(Set("violet"))
     Day07.findPossibleBagsToHold("violet", rules) should be(Set.empty[String])
+  }
+
+  // Part 2
+
+  "count number of bags held" should "return the total recursive number of bags held within a bag of a given color" in {
+    val rules = Set(
+      Rule("shiny gold", Map("dark red" -> 2)),
+      Rule("dark red", Map("dark orange" -> 2)),
+      Rule("dark orange", Map("dark yellow" -> 2)),
+      Rule("dark yellow", Map("dark green" -> 2)),
+      Rule("dark green", Map("dark blue" -> 2)),
+      Rule("dark blue", Map("dark violet" -> 2)),
+      Rule("dark violet", Map.empty[String, Int])
+    )
+
+    Day07.countNumberOfBagsHeld("shiny gold", rules) should be(126)
   }
 }
