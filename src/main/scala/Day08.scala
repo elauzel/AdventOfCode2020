@@ -82,10 +82,10 @@ object Day08 {
         val commands = parseCommands(lines)._1
         // Part 1 - Immediately before any instruction is executed a second time, what value is in the accumulator?
         val part1Answer = attemptBootAndAccumulate(commands)
-        System.out.println(part1Answer)
+        System.out.println(part1Answer._1)
         // Part 2 - Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp).
         // What is the value of the accumulator after the program terminates?
         val part2Answer = repairInfiniteLoopToBootNormally(commands)
-        System.out.println(part2Answer)
+        System.out.println(part2Answer._1)
     }
 }
