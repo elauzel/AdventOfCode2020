@@ -1,8 +1,10 @@
+import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.util.Try
 
 object Day10 {
   private val DeviceRating = 3
+  private val MaxJoltageDifference = 3
 
   case class AdapterGroup(first: Int, last: Int)
 
@@ -31,23 +33,43 @@ object Day10 {
   def countPossibleAdapterArrangements(adapters: Vector[Int]): Int = {
     val devicesHiLow = (Vector(0) ++ adapters.sorted ++ Vector(adapters.max + DeviceRating)).reverse
     devicesHiLow.sliding(4)
-      .map(devices => devices.tail.filter(_ + 3 >= devices.head).sum)
+      .map(devices => devices.tail.filter(_ + MaxJoltageDifference >= devices.head).sum)
       .product
   }
 
-  def groupAdapters(adapters: Vector[Int], currentIndex: Int = 0): Vector[AdapterGroup] = {
-    val sorted = adapters.sorted
-    //    val possibleSteps = mutable.ListBuffer.from(adapters.map(_ => 0))
-    val possibleStepsForEachAdapter = sorted
-      .indices
-      .map { index =>
-        val adapter = sorted(index)
-        val nextAdapters = sorted.slice(index + 1, index + 4)
-        val count = nextAdapters.count(_ + 3 >= adapter)
-        count
+  def findDistinctAdapterGroups(adapters: Vector[Int]): Vector[AdapterGroup] = {
+    @tailrec
+    def go(adaptersCurrentGroup: Vector[Int],
+           adaptersRemaining: Vector[Int],
+           previousPossibilityCount: Int,
+           adapterGroups: Vector[AdapterGroup]): Vector[AdapterGroup] =
+      if (adaptersRemaining.isEmpty) {
+        val newGroup = AdapterGroup(adaptersCurrentGroup.min, adaptersCurrentGroup.max)
+        adapterGroups :+ newGroup
+      }
+      else {
+        // val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4, 0)
+        // (0 1 4) 5 6 (7 10) 11 (12 15 16 19)
+        //   1 1  3 2 1  1  2   1   1  1  1  0
+        val adapter = adaptersRemaining.head
+        val possibleConnectionCount = adaptersRemaining.tail
+          .takeWhile(_ <= adapter + MaxJoltageDifference)
+          .size
+        if (previousPossibilityCount == 1 && possibleConnectionCount == 1) {
+          // add to current group
+          go(adaptersCurrentGroup :+ adapter, adaptersRemaining.tail, possibleConnectionCount, adapterGroups)
+        } else {
+          // start new group
+          if (adaptersCurrentGroup.isEmpty) {
+            go(Vector(adapter), adaptersRemaining.tail, possibleConnectionCount, adapterGroups)
+          } else {
+            val newGroup = AdapterGroup(adaptersCurrentGroup.min, adapter)
+            go(Vector.empty[Int], adaptersRemaining.tail, possibleConnectionCount, adapterGroups :+ newGroup)
+          }
+        }
       }
 
-    Vector.empty[AdapterGroup]
+    go(Vector.empty[Int], Vector(0) ++ adapters.sorted, 0, Vector.empty[AdapterGroup])
   }
 
   def main(args: Array[String]): Unit =

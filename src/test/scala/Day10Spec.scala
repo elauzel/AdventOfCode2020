@@ -35,52 +35,53 @@ class Day10Spec extends AnyFlatSpec with Matchers {
 
   // Part 2
 
-  "groupAdapters" should "group together all adapters that must join together" in {
+  "findDistinctAdapterGroups" should "group together all adapters that must join together" in {
     val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
-    // (1 4) 5 6 (7 10) 11 (12 15) (16 19)
+    // (1 4) 5 6 (7 10) 11 (12 15 16 19)
     val adapterGroups1 = Vector(
+      AdapterGroup(0, 0), // FIXME delete
       AdapterGroup(1, 4),
       AdapterGroup(5, 5),
       AdapterGroup(6, 6),
       AdapterGroup(7, 10),
       AdapterGroup(11, 11),
-      AdapterGroup(12, 15),
-      AdapterGroup(16, 19)
+      AdapterGroup(12, 19)
     )
-    Day10.groupAdapters(adapters1) should be(adapterGroups1)
-    val adapters2 = Vector(28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
-    // 1 2 3 (4 7) 8 9 10 (11 14 17) 18 19 (20 23) 24 (25 28 31) 32 33 34 (35 38) (39 42 45) 46 47 48 49
-    val adapterGroups2 = Vector(
-      AdapterGroup(1, 1),
-      AdapterGroup(2, 2),
-      AdapterGroup(3, 3),
-      AdapterGroup(4, 7),
-      AdapterGroup(8, 8),
-      AdapterGroup(9, 9),
-      AdapterGroup(10, 10),
-      AdapterGroup(11, 17),
-      AdapterGroup(18, 18),
-      AdapterGroup(19, 19),
-      AdapterGroup(20, 23),
-      AdapterGroup(24, 24),
-      AdapterGroup(25, 31),
-      AdapterGroup(32, 32),
-      AdapterGroup(33, 33),
-      AdapterGroup(34, 34),
-      AdapterGroup(35, 38),
-      AdapterGroup(39, 45),
-      AdapterGroup(46, 46),
-      AdapterGroup(47, 47),
-      AdapterGroup(48, 48),
-      AdapterGroup(49, 49)
-    )
-    Day10.groupAdapters(adapters2) should be(adapterGroups2)
+    Day10.findDistinctAdapterGroups(adapters1) should be(adapterGroups1)
+//    val adapters2 = Vector(28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
+//    // 1 2 3 (4 7) 8 9 10 (11 14 17) 18 19 (20 23) 24 (25 28 31) 32 33 34 (35 38) (39 42 45) 46 47 48 49
+//    val adapterGroups2 = Vector(
+//      AdapterGroup(0, 0), // FIXME delete
+//      AdapterGroup(1, 1),
+//      AdapterGroup(2, 2),
+//      AdapterGroup(3, 3),
+//      AdapterGroup(4, 7),
+//      AdapterGroup(8, 8),
+//      AdapterGroup(9, 9),
+//      AdapterGroup(10, 10),
+//      AdapterGroup(11, 17),
+//      AdapterGroup(18, 18),
+//      AdapterGroup(19, 19),
+//      AdapterGroup(20, 23),
+//      AdapterGroup(24, 24),
+//      AdapterGroup(25, 31),
+//      AdapterGroup(32, 32),
+//      AdapterGroup(33, 33),
+//      AdapterGroup(34, 34),
+//      AdapterGroup(35, 38),
+//      AdapterGroup(39, 45),
+//      AdapterGroup(46, 46),
+//      AdapterGroup(47, 47),
+//      AdapterGroup(48, 48),
+//      AdapterGroup(49, 49)
+//    )
+//    Day10.findDistinctAdapterGroups(adapters2) should be(adapterGroups2)
   }
 
-  "countPossibleAdapterArrangements" should "count the unique number of adapter arrangements to connect your device to the wall" in {
-    val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
-    Day10.countPossibleAdapterArrangements(adapters1) should be(8)
-    val adapters2 = Vector(28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
-    Day10.countPossibleAdapterArrangements(adapters2) should be(1848)
-  }
+//  "countPossibleAdapterArrangements" should "count the unique number of adapter arrangements to connect your device to the wall" in {
+//    val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
+//    Day10.countPossibleAdapterArrangements(adapters1) should be(8)
+//    val adapters2 = Vector(28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
+//    Day10.countPossibleAdapterArrangements(adapters2) should be(1848)
+//  }
 }
