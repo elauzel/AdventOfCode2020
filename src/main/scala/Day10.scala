@@ -43,24 +43,15 @@ object Day10 {
       }
 
     val groups = Vector(AdapterGroup(0)) ++ findDistinctAdapterGroups(adapters.sorted) :+ AdapterGroup(adapters.max + DeviceRating)
-    // adapters:  (16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4, 0)
-    // sorted:    WALL (1 4) 5 6 (7 10) 11 (12 15 16 19) DEVICE
-    // connections:   1     3 2 1      2  1             1
+    val possibleConnectionsByGroup = go(groups.head, groups.tail, Seq.empty[(AdapterGroup, Adapter)])
 
-    // possibilities
-    //
-    // WALL (1 4) 5 6 (7 10) 11 (12 15 16 19) DEVICE
-    // WALL (1 4) 5 6 (7 10)    (12 15 16 19) DEVICE
-    // WALL (1 4) 5   (7 10) 11 (12 15 16 19) DEVICE
-    // WALL (1 4) 5   (7 10)    (12 15 16 19) DEVICE
-    // WALL (1 4)   6 (7 10) 11 (12 15 16 19) DEVICE
-    // WALL (1 4)   6 (7 10)    (12 15 16 19) DEVICE
-    // WALL (1 4)     (7 10) 11 (12 15 16 19) DEVICE
-    // WALL (1 4)     (7 10)    (12 15 16 19) DEVICE
-    val countsByGroup = go(groups.head, groups.tail, Seq.empty[(AdapterGroup, Int)])
-    val product = countsByGroup.values.product
-    System.out.println("do something with the above?")
-    product // FIXME
+    val requiredGroupCount = possibleConnectionsByGroup.values.count(_ == 1) - 1
+    val optionalGroupCount = possibleConnectionsByGroup.values.count(_ != 1)
+    val minGroupConnectionCount = requiredGroupCount + 1
+    val maxGroupConnectionCount = possibleConnectionsByGroup.size
+
+    // The number of paths to get to this adapter from the start is equal to the sum of the number of paths to get from the previous adapter to this one.
+    possibleConnectionsByGroup.values.filter(_ != 1).product
   }
 
   def findDistinctAdapterGroups(adapters: Vector[Adapter]): Vector[AdapterGroup] = {

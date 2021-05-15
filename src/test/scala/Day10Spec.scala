@@ -80,8 +80,30 @@ class Day10Spec extends AnyFlatSpec with Matchers {
   }
 
   "countPossibleAdapterArrangements" should "count the unique number of adapter arrangements to connect your device to the wall" in {
-    val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
-    Day10.countPossibleAdapterArrangements(adapters1) should be(8)
+    // adapters:  (16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4, 0)
+    // groups:    WALL (1 4) 5 6 (7 10) 11 (12 15 16 19) DEVICE
+    // connections:   1     3 2 1      2  1             1
+
+    // possibilities = 8
+    //
+    // WALL (1 4) 5 6 (7 10) 11 (12 15 16 19) DEVICE
+    // WALL (1 4) 5 6 (7 10)    (12 15 16 19) DEVICE
+    // WALL (1 4) 5   (7 10) 11 (12 15 16 19) DEVICE
+    // WALL (1 4) 5   (7 10)    (12 15 16 19) DEVICE
+    // WALL (1 4)   6 (7 10) 11 (12 15 16 19) DEVICE
+    // WALL (1 4)   6 (7 10)    (12 15 16 19) DEVICE
+    // WALL (1 4)     (7 10) 11 (12 15 16 19) DEVICE
+    // WALL (1 4)     (7 10)    (12 15 16 19) DEVICE
+
+//    val adapters1 = Vector(16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4)
+//    Day10.countPossibleAdapterArrangements(adapters1) should be(8)
+
+    // adapters:  (28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
+    // groups:    WALL (1) (2) (3) (4 7) (8) (9) (10) (11 17) (18) (19) (20 23) (24) (25 31) (32) (33) (34) (35 45) (46) (47) (48) (49) DEVICE
+    // connections:   3   3   2   1     3   3   2    1       3    2    1       2    1       3    3    2    1       3    3    2    1    1
+
+    // possibilities = 1848
+
     val adapters2 = Vector(28, 33, 18, 42, 31, 14, 46, 20, 48, 47, 24, 23, 49, 45, 19, 38, 39, 11, 1, 32, 25, 35, 8, 17, 7, 9, 4, 2, 34, 10, 3)
     Day10.countPossibleAdapterArrangements(adapters2) should be(1848)
   }
