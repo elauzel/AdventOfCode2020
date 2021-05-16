@@ -1,4 +1,4 @@
-import scala.annotation.tailrec
+import scala.collection.parallel.CollectionConverters.ImmutableMapIsParallelizable
 import scala.util.Try
 
 object Day10 {
@@ -33,53 +33,24 @@ object Day10 {
   }
 
   def countPossibleAdapterArrangements(adapters: Vector[Adapter]): Int = {
-    @tailrec
-    def go(smallestGroup: AdapterGroup, largerGroups: Vector[AdapterGroup], countsByGroup: Seq[(AdapterGroup, Int)]): Map[AdapterGroup, Int] =
-      if (largerGroups.isEmpty)
-        countsByGroup.toMap
+    val device = adapters.max + MaxJoltageDifference
+    val possibleConnections = findPossibleConnections(adapters).par
+
+    def go(adapter: Adapter): Int =
+      if (adapter == device)
+        1
       else {
-        val entry = smallestGroup -> largerGroups.takeWhile(_.adapters.min <= smallestGroup.adapters.max + MaxJoltageDifference).size
-        go(largerGroups.head, largerGroups.tail, countsByGroup :+ entry)
-      }
+        possibleConnections(adapter).map(go)
+      }.sum
 
-    val groups = Vector(AdapterGroup(0)) ++ findDistinctAdapterGroups(adapters.sorted) :+ AdapterGroup(adapters.max + DeviceRating)
-    val possibleConnectionsByGroup = go(groups.head, groups.tail, Seq.empty[(AdapterGroup, Adapter)])
-
-    val requiredGroupCount = possibleConnectionsByGroup.values.count(_ == 1) - 1
-    val optionalGroupCount = possibleConnectionsByGroup.values.count(_ != 1)
-    val minGroupConnectionCount = requiredGroupCount + 1
-    val maxGroupConnectionCount = possibleConnectionsByGroup.size
-
-    // The number of paths to get to this adapter from the start is equal to the sum of the number of paths to get from the previous adapter to this one.
-    possibleConnectionsByGroup.values.filter(_ != 1).product
+    go(0)
   }
 
-  def findDistinctAdapterGroups(adapters: Vector[Adapter]): Vector[AdapterGroup] = {
-    @tailrec
-    def go(adaptersCurrentGroup: Vector[Adapter],
-           adaptersRemaining: Vector[Adapter],
-           previousPossibleConnections: Int,
-           adapterGroups: Vector[AdapterGroup]): Vector[AdapterGroup] =
-      if (adaptersRemaining.isEmpty)
-        adapterGroups
-      else {
-        val adapter = adaptersRemaining.head
-        val currentPossibleConnections = adaptersRemaining.tail
-          .takeWhile(_ <= adapter + MaxJoltageDifference)
-          .size
-        if (previousPossibleConnections < 2 && currentPossibleConnections == 1) {
-          // add to current group
-          go(adaptersCurrentGroup :+ adapter, adaptersRemaining.tail, currentPossibleConnections, adapterGroups)
-        } else {
-          // wrap up current group and start new group
-          val newGroup =
-            if (adaptersCurrentGroup.isEmpty) AdapterGroup(adapter)
-            else AdapterGroup(adaptersCurrentGroup.min, adaptersCurrentGroup.max, adapter).shrink
-          go(Vector.empty[Adapter], adaptersRemaining.tail, currentPossibleConnections, adapterGroups :+ newGroup)
-        }
-      }
-
-    go(Vector.empty[Adapter], adapters.sorted, 0, Vector.empty[AdapterGroup])
+  def findPossibleConnections(adapters: Vector[Adapter]): Map[Adapter, Vector[Adapter]] = {
+    val sorted = Vector(0) ++ adapters.sorted
+    sorted
+      .map(a => a -> Vector(a + 1, a + 2, a + 3).filter(sorted.contains))
+      .toMap ++ Map(sorted.last -> Vector(sorted.last + MaxJoltageDifference))
   }
 
   def main(args: Array[String]): Unit =
@@ -92,10 +63,8 @@ object Day10 {
         // What is the number of 1-jolt differences multiplied by the number of 3-jolt differences?
         val part1Answer = findJoltageProduct(adapters, Vector(1, 3))
         System.out.println(part1Answer)
-      // Part 2 - What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
-      //        val part2Answer = part1Answer
-      //          .flatMap(findContiguousNumbers(numbers, _))
-      //          .map(findEncryptionWeakness)
-      //        System.out.println(part2Answer)
+        // Part 2 - What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
+        val part2Answer = countPossibleAdapterArrangements(adapters)
+        System.out.println(part2Answer)
     }
 }

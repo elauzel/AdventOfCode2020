@@ -43,6 +43,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/jars/scala-compiler-2.13.4.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.jline/jline/jars/jline-3.16.0.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/net.java.dev.jna/jna/jars/jna-5.3.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang.modules/scala-parallel-collections_2.13/jars/scala-parallel-collections_2.13-0.2.0.jar!/" />
         </CLASSES>
         <JAVADOC>
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scalatest/scalatest_2.13/javadocs/scalatest_2.13-3.2.7-javadoc.jar!/" />
@@ -66,6 +67,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scalatest/scalatest-mustmatchers_2.13/javadocs/scalatest-mustmatchers_2.13-3.2.7-javadoc.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/javadocs/scala-compiler-2.13.4-javadoc.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.jline/jline/javadocs/jline-3.16.0-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang.modules/scala-parallel-collections_2.13/javadocs/scala-parallel-collections_2.13-0.2.0-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scalatest/scalatest_2.13/sources/scalatest_2.13-3.2.7-sources.jar!/" />
@@ -89,6 +91,7 @@
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scalatest/scalatest-mustmatchers_2.13/sources/scalatest-mustmatchers_2.13-3.2.7-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-compiler/sources/scala-compiler-2.13.4-sources.jar!/" />
           <root url="jar://$USER_HOME$/.ivy2/cache/org.jline/jline/sources/jline-3.16.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-lang.modules/scala-parallel-collections_2.13/sources/scala-parallel-collections_2.13-0.2.0-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

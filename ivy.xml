@@ -1,6 +1,7 @@
 <ivy-module version="2.0">
     <info organisation="elauzel" module="AdventOfCode2020"/>
     <dependencies>
+        <dependency org="org.scala-lang.modules" name="scala-parallel-collections_2.13" rev="0.2.0"/>
         <dependency org="org.scalatest" name="scalatest_2.13" rev="3.2.7"/>
     </dependencies>
 </ivy-module>
